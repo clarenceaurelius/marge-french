@@ -53,7 +53,7 @@ function chapterCards() {
     return !entry?1:entry.due<=now?0:2;
   };
   return analyses.get(chapter)
-    .filter(card=>state.level==='all'||(state.level==='unranked'?!card.level:card.level===state.level))
+    .filter(card=>state.level==='all'||(state.level==='unranked'?!card.level:LEVELS.indexOf(card.level)>=LEVELS.indexOf(state.level)))
     .sort((a,b)=>priority(a)-priority(b)||b.count-a.count||a.lemma.localeCompare(b.lemma,'fr'));
 }
 
@@ -125,7 +125,7 @@ async function fillEntry() {
 function chaptersPage() {
   const book=currentBook(), chapter=currentChapter(), words=chapterCards(), index=book.chapters.indexOf(chapter);
   const ready=availableCards(words);
-  const filters=[['all','Tous les niveaux'],...LEVELS.map(l=>[l,l]),['unranked','Non classé']];
+  const filters=[['all','Tous les niveaux'],...LEVELS.map(l=>[l,l+' et plus']),['unranked','Non classé']];
   return page('Lisez et apprenez en français.','Retrouvez le sens des mots dans vos lectures et révisez-les au bon moment.','Votre espace de lecture')+
     '<div class="grid"><div class="stack"><section class="panel hero"><div class="cover" aria-hidden="true">marge.</div>'+
     '<div><div class="eyebrow">'+(book.id==='demo'?'Livre d’exemple':'Votre livre')+'</div><h2 lang="fr">'+esc(book.title)+'</h2>'+
@@ -135,7 +135,7 @@ function chaptersPage() {
         'chapter','chapter '+(i===index?'current':''),i,i===index?'aria-current="true"':'')).join('')+
     '</div></section></div><div class="stack"><section class="panel"><div class="eyebrow">Chapitre '+(index+1)+'</div>'+
     '<h2 lang="fr">'+esc(chapter.title)+'</h2><p>'+count(words.length,'mot')+' · '+words.filter(w=>history(w.lemma)).length+' déjà étudiés</p>'+
-    '<label for="level">Niveau</label><select id="level">'+filters.map(([id,title])=>
+    '<label for="level">Niveau minimum</label><select id="level">'+filters.map(([id,title])=>
       '<option value="'+id+'"'+(id===state.level?' selected':'')+'>'+title+'</option>').join('')+'</select>'+
     '<p><small>'+(lex?'Niveaux estimés à partir de Lexique 3.83.':book.id==='demo'?'Niveaux indicatifs de l’exemple.':
       (loadingLex?'Estimation des niveaux en cours…':'<a href="#method">Chargez Lexique</a> pour estimer le niveau des mots importés.'))+'</small></p>'+

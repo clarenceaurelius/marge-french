@@ -1,4 +1,4 @@
-const name = 'marge-app-v4';
+const name = 'marge-app-v5';
 const shell = ['index.html','style.css','app.js','learning.js','dictionary.js','storage.js','glossary.js','frontier.js','icon.svg','app.webmanifest'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(name).then(cache=>cache.addAll(shell)));
