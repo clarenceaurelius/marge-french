@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Lisez en français, consultez les définitions et révisez votre vocabulaire.">
+<meta name="theme-color" content="#f6f2e9">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="manifest" href="app.webmanifest">
+<link rel="stylesheet" href="style.css">
+<title>Marge — Lire en français</title>
+<script type="module" src="app.js"></script>
+</head>
+<body>
+<div class="shell">
+  <aside class="rail">
+    <a class="brand" href="#chapters" aria-label="Accueil de Marge"><span class="brand-icon" aria-hidden="true"></span>Marge<span class="brand-period">.</span></a>
+    <nav aria-label="Navigation principale">
+      <a href="#chapters" data-tab="chapters"><span aria-hidden="true">▤</span>Chapitres</a>
+      <a href="#dictionary" data-tab="dictionary"><span aria-hidden="true">◇</span>Dictionnaire</a>
+      <a href="#review" data-tab="review"><span aria-hidden="true">↻</span>Révisions <span class="nav-count" id="dueCount">0</span></a>
+      <a href="#frontier" data-tab="frontier"><span aria-hidden="true">⬡</span>Vocabulaire</a>
+      <a href="#method" data-tab="method"><span aria-hidden="true">☷</span>Méthode</a>
+    </nav>
+    <div class="shelf-title">Bibliothèque</div>
+    <div class="shelf" id="shelf" aria-label="Bibliothèque"></div>
+    <button type="button" class="btn primary import-button" data-action="import"><span aria-hidden="true">+</span> Importer un livre</button>
+    <button type="button" class="btn quiet resume-button" data-action="resume" id="resume" hidden>Reprendre la séance →</button>
+  </aside>
+  <main tabindex="-1" id="main">
+    <p id="storageNote" class="warning" role="status" hidden></p>
+    <div id="app"><h1>Ouverture de Marge…</h1></div>
+  </main>
+</div>
+<dialog id="importDialog" aria-labelledby="importTitle">
+  <h2 id="importTitle">Importer un livre en français</h2>
+  <p>Choisissez un fichier .txt ou Markdown, ou collez le texte. Les titres comme <i>Chapitre I</i> délimitent les chapitres à étudier.</p>
+  <form id="importForm">
+    <label for="bookTitle">Titre <small>(facultatif)</small></label><input id="bookTitle" maxlength="120">
+    <label for="bookFile">Choisir un fichier</label><input id="bookFile" type="file" accept=".txt,.md,.markdown,text/plain,text/markdown">
+    <label for="bookText">Ou collez le texte</label><textarea id="bookText" rows="5" placeholder="Chapitre I"></textarea>
+    <p id="importError" class="warning" role="alert"></p>
+    <div class="actions"><button type="button" class="btn outline" data-action="cancel">Annuler</button><button type="submit" class="btn primary">Importer un livre</button></div>
+  </form>
+</dialog>
+<input id="lexFile" type="file" accept=".tsv,.txt,text/tab-separated-values" hidden>
+<noscript>Marge utilise JavaScript pour importer des livres, rechercher des mots et les réviser.</noscript>
+</body>
+</html>
